@@ -18,7 +18,7 @@ var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017');
 
-var Bear = require('./app/models/bear');
+var Url = require('./app/models/url');
 
 // ROUTES FOR OUR API
 // ===============================
@@ -40,33 +40,33 @@ router.get('/', function(req, res) {
 
 //on routes that end in /bears
 // ============================
-router.route('/bears')
+router.route('/:url')
     //create a bear (accessed at POST http://localhost:8080/api/bears)
     .post(function(req, res) {
     
-        var bear = new Bear();  // create a new instance of the Bear model
-        bear.name = req.body.name; //set the bears name (comes from the request)
+        var url = new Url();  // create a new instance of the Bear model
+        url.long = req.body.name; //set the bears name (comes from the request)
     
         //save the bear and check for errors
-        bear.save(function(err) {
+        url.save(function(err) {
             if(err)
                 res.send(err);
             
-            res.json({ message: 'Bear created!' });
+            res.json({ message: 'url created!' });
         });
     })
     .get(function(req, res) {
-        Bear.find(function(err, bears) {
+        Url.find(function(err, bears) {
             if(err)
                 res.send(err);
             
-            res.json(bears);
+            res.json(url);
         })
     });
 
 //on routes that end in /bears/:bear_id
 // -------------------------------------
-router.route('/bears/:bear_id')
+router.route('/:url_short')
 
     //get the bear with that id(accessed at GET http://localhost:8080/api/bears/:bear_id)
     .get(function(req, res) {
@@ -96,19 +96,6 @@ router.route('/bears/:bear_id')
                 
                 res.json({ message: 'Bear updated!' });
             });
-        });
-    
-    })
-
-    //delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
-    .delete(function(req, res) {
-        Bear.remove({
-            _id: req.params.bear_id
-        }, function(err, bear) {
-            if (err)
-                res.send(err);
-            
-            res.json({ message: 'Successfully deleted' });
         });
     });
 
