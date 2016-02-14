@@ -45,14 +45,16 @@ app.use(express.static(__dirname + '/public'));
 
 //more routes for our API will happen here
 
-//on routes that end in /
-// ============================
+// on routes that end in /new
+// -------------------------
 router.route('/new')
     //create a url (accessed at POST http://localhost:8080/url)
     .post(function(req, res) {
     
         var url = new Url();  // create a new instance of the Bear model
-        url.long = req.body.name; //set the url name (comes from the request)
+        url.original_url = req.body.original_url; //set the url name (comes from the request)
+    
+        url.short_url = req.body.short_url;
     
         //save the bear and check for errors
         url.save(function(err) {
@@ -61,13 +63,15 @@ router.route('/new')
             
             res.json({ message: 'url created!' });
         });
-    })
+    });
+
+// on routes that end in /all
+// ---------------------------
+router.route('/all')
     .get(function(req, res) {
         Url.find(function(err, urls) {
             if(err)
                 res.send(err);
-            
-            
             res.json(urls);
         })
     });
@@ -86,6 +90,8 @@ router.route('/:short_url')
         });
     });
     
+//onroutes that end in :/original_url
+//-----------------------------------
 
 
 //REGISTER OUR ROUTES -------------

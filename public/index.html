@@ -19,8 +19,8 @@
             </div>
             
             <!--FORM FOR SUBMITTING LINKS-->
-            <form method="post">
-                <input type="url" required>
+            <form action="/new" target="_blank" method="post">
+                <input name="url[original_url]" type="url" accept="text/plain" required>
                 <button id="submit" type="submit">Shorten</button>
                 <button type="reset">Clear</button>
             </form>
