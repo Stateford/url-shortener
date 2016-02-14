@@ -1,0 +1,23 @@
+{
+  "name": "url-shortener",
+  "description": "freecodecamp project",
+  "main": "server.js",
+  "authors": [
+    "idiet moran <idietmoran@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/idietmoran/url-shortener",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "jquery": "^2.2.0"
+  }
+}

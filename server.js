@@ -7,6 +7,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var path = require('path');
 
 // confiure app to use bodyParser()
 // this will let us get the data from a POST
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
+// connect to database
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017');
 
@@ -33,19 +35,24 @@ router.use(function(req, res, next) {
 
 //test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'horray! welcome to our api!'});
+    //event log
+    console.log('served index.html');
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
+
+// set the static files location /public/img will be /img for users
+app.use(express.static(__dirname + '/public')); 
 
 //more routes for our API will happen here
 
-//on routes that end in /bears
+//on routes that end in /
 // ============================
-router.route('/:url')
-    //create a bear (accessed at POST http://localhost:8080/api/bears)
+router.route('/new')
+    //create a url (accessed at POST http://localhost:8080/url)
     .post(function(req, res) {
     
         var url = new Url();  // create a new instance of the Bear model
-        url.long = req.body.name; //set the bears name (comes from the request)
+        url.long = req.body.name; //set the url name (comes from the request)
     
         //save the bear and check for errors
         url.save(function(err) {
@@ -56,53 +63,34 @@ router.route('/:url')
         });
     })
     .get(function(req, res) {
-        Url.find(function(err, bears) {
+        Url.find(function(err, urls) {
             if(err)
                 res.send(err);
             
-            res.json(url);
+            
+            res.json(urls);
         })
     });
 
-//on routes that end in /bears/:bear_id
+//on routes that end in /:short_url
 // -------------------------------------
-router.route('/:url_short')
+router.route('/:short_url')
 
-    //get the bear with that id(accessed at GET http://localhost:8080/api/bears/:bear_id)
+    //get the url with that id(accessed at GET http://localhost:8080/:short_url)
     .get(function(req, res) {
-        Bear.findById(req.params.bear_id, function(err, bear) {
+        Url.findById(req.params.short_url, function(err, url) {
             if(err)
                 res.send(err);
 
-            res.json(bear);
-        });
-    })
-    
-    //update the bear with this id (accessed at PUT http://localhost:8080/api/bears/:bear_id)
-    .put(function(req, res) {
-        
-        // use our bear model to find the bear we want
-        Bear.findById(req.params.bear_id, function(err, bear) {
-            
-            if(err)
-                res.send(err);
-            
-            bear.name = req.body.name;    //update the bears info
-            
-            //save the bear
-            bear.save(function(err) {
-                if(err)
-                    res.send(err);
-                
-                res.json({ message: 'Bear updated!' });
-            });
+            res.json(url);
         });
     });
+    
 
 
 //REGISTER OUR ROUTES -------------
 // all of our routes will be prefixed with /api
-app.use('/api', router);
+app.use('/', router);
 
 // START THE SERVER
 // ============================
