@@ -19,8 +19,8 @@
             </div>
             
             <!--FORM FOR SUBMITTING LINKS-->
-            <form action="/new" target="_blank" method="post">
-                <input name="url[original_url]" type="url" accept="text/plain" required>
+            <form action="/new" target="hidden_iframe" method="post">
+                <input name="original_url" type="text" required><br/>
                 <button id="submit" type="submit">Shorten</button>
                 <button type="reset">Clear</button>
             </form>

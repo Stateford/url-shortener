@@ -1,5 +1,7 @@
 node_modules/
 public/lib/
+public/css/base/
+public/css/layout
 data/
 gulpfile.js
 *.scss

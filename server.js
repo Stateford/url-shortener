@@ -61,9 +61,21 @@ router.route('/new')
             if(err)
                 res.send(err);
             
-            res.json({ message: 'url created!' });
+            res.send('url created!' );
         });
     });
+
+// on routes that end in /new/:original_url
+// ----------------------------------------
+router.route('/new/:original_url')
+    .get(function(req, res) {
+         Url.find({ original_url: req.params.original_url}, function(err, url) {
+            if(err)
+                res.send(err);
+
+            res.json(url);
+    });
+})
 
 // on routes that end in /all
 // ---------------------------
