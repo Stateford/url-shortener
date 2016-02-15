@@ -20,7 +20,9 @@ var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017');
 
+// import scripts
 var Url = require('./app/models/url');
+var count = require('./app/script/count');
 
 // ROUTES FOR OUR API
 // ===============================
@@ -61,7 +63,7 @@ router.route('/new')
             if(err)
                 res.send(err);
             
-            res.send('url created!' );
+            res.send('url created!');
         });
     });
 
