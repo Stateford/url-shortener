@@ -1,5 +1,7 @@
 app.controller('urlCtrl', ['$scope', '$http', 'url', function($scope, $http, url) {
-    url.success(function(data) {
-        $scope.url = data;
-    })
+    $scope.clicked = function() {
+        url.success(function(data) {
+            $scope.link = data;
+        })
+    }
 }]);

@@ -50,29 +50,45 @@ app.use(express.static(__dirname + '/public'));
 router.route('/new')
     //create a url (accessed at POST http://localhost:8080/url)
     .post(function(req, res) {
-    
-        var url = new Url();  // create a new instance of the url model
-        url.original_url = req.body.original_url; //set the url name (comes from the request)
+        var input = req.body.original_url;
+        
+        Url.find({ original_url: input}, function(err, link) {
+            if(link.length) {
+                res.send(link)
+            }else {
+                var url = new Url();  // create a new instance of the url model
+                url.original_url = input; //set the url name (comes from the request)
             
-        //save the url and check for errors
-        url.save(function(err) {
-            if(err)
-                res.send(err);
+            //save the url and check for errors
+                url.save(function(err) {
+                    if(err)
+                    res.send(err);
             
             res.send('url created!');
         });
+            }
+        })
+    
+        
+    })
+    .get(function(req, res) {
+        Url.find({ original_url: req.query}, function(err, url) {
+            if(err)
+                res.send('error: ' + err);
+            res.send(url);
+        })
     });
 
 // on routes that end in /new/:original_url
 // ----------------------------------------
-router.route('/new/:original_url')
+router.route('/new/:original')
     .get(function(req, res) {
-         Url.find({ original_url: req.params.original_url}, function(err, url) {
+         Url.find({ original_url: req.params.original}, function(err, url) {
             if(err)
-                res.send(err);
+                res.send('error: ' +err);
             res.json(url);
     });
-})
+});
 
 
 // on routes that end in /all
@@ -105,7 +121,7 @@ router.route('/:short_url')
 
     //get the url with that id(accessed at GET http://localhost:8080/:short_url)
     .get(function(req, res) {
-        Url.findById( {short_url: req.params.short_url }, function(err, url) {
+        Url.find( {short_url: req.params.short_url }, function(err, url) {
             if(err)
                 res.send(err);
             res.json(url);

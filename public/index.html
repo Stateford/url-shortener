@@ -8,19 +8,19 @@
         <link href="css/style.css">
         <script src="js/javascript.js"></script>
     </head>
-    <body>
+    <body ng-app="urlshort">
         <!--WRAPPER-->
         <div class="wrapper">
             <h1>URL SHORTENER</h1>
             
-            <div class="output hidden">
-                <code id="url-short">{{ url.short_url }}</code>
+            <div class="output hidden" ng-controller="urlCtrl">
+                <code id="url-short">{{ link.short_url }}</code>
             </div>
             
             <!--FORM FOR SUBMITTING LINKS-->
             <form>
-                <input id="form-url" name="original_url" type="text" required><br/>
-                <button id="submit" type="button">Shorten</button>
+                <input class="original" id="form-url" name="original_url" type="text" required><br/>
+                <button id="submit" type="button" ng-click="clicked()">Shorten</button>
                 <button type="reset">Clear</button>
             </form>
             

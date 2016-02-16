@@ -13,6 +13,5 @@
 
 
 ## TODO
-* serve index.html file
-* server static files
-* set up writing to database
+* url + count in database
+* set up checks to see if POST is currently in the database

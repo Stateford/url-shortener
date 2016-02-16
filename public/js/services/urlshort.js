@@ -1,5 +1,6 @@
 app.factory('url', ['$http', function($http) {
-    return $http.get('')
+    var input = $('.original').val();
+    return $http.get('http://localhost:8080/new/' + input)
         .success(function(data) {
             return data;
         })
