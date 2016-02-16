@@ -1,13 +1,23 @@
 // app/script/count.js
 
-// modules
-// ==============================
+// MODULES
+// =========================
 var mongoose = require('mongoose');
+var Url = require('../models/url');
 
-module.exports = function() {
-    Url.findOne({}, {}, {sort: {short_url: -1}}, function(err, post) {
-        var count = Number(post);
-        count++;
-        return count;
-    });
-};
+var count = '';
+
+var currentCount = Url.find().sort({ _id: -1 }).limit(1).exec(function(err, urls) {
+    count = urls[0].short_url;
+})
+
+
+var update = function() {
+    count = Number(count);
+    count = count + 1
+    count.toString();
+    console.log(count);
+    return count;
+}
+
+module.exports = update;

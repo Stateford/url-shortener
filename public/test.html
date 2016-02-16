@@ -1,0 +1,27 @@
+
+<DOCTYPE>html</DOCTYPE>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>url-shortener</title>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <link href="css/style.css"/>
+    <script src="js/javascript.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>URL SHORTENER
+        <div class="output hidden"><code id="url-short">{{ url.short_url }}</code></div>
+        <form>
+          <input id="form-url" name="original_url" type="text" required="required"/>
+          <button id="submit" type="button">Shorten</button>
+          <button type="reset">Clear</button>
+        </form>
+      </h1>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/services/urlshort.js"></script>
+    <script src="js/controller/urlCtrl.js"></script>
+  </body>
+</html>

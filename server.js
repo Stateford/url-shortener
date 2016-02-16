@@ -14,15 +14,14 @@ var path = require('path');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;
-
+var port = process.env.PORT || 8080; 
+ 
 // connect to database
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017');
 
 // import scripts
 var Url = require('./app/models/url');
-var count = require('./app/script/count');
 
 // ROUTES FOR OUR API
 // ===============================
@@ -38,7 +37,6 @@ router.use(function(req, res, next) {
 //test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
     //event log
-    console.log('served index.html');
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
@@ -53,12 +51,10 @@ router.route('/new')
     //create a url (accessed at POST http://localhost:8080/url)
     .post(function(req, res) {
     
-        var url = new Url();  // create a new instance of the Bear model
+        var url = new Url();  // create a new instance of the url model
         url.original_url = req.body.original_url; //set the url name (comes from the request)
-    
-        url.short_url = req.body.short_url;
-    
-        //save the bear and check for errors
+            
+        //save the url and check for errors
         url.save(function(err) {
             if(err)
                 res.send(err);
@@ -74,10 +70,10 @@ router.route('/new/:original_url')
          Url.find({ original_url: req.params.original_url}, function(err, url) {
             if(err)
                 res.send(err);
-
             res.json(url);
     });
 })
+
 
 // on routes that end in /all
 // ---------------------------
@@ -90,22 +86,31 @@ router.route('/all')
         })
     });
 
+// on routes that end in /latest
+// -----------------------------
+router.route('/latest')
+    .get(function(req, res) {
+        // GET the last 10 created
+        Url.find().sort({ _id: - 1 }).limit(10).exec(function(err, links) {
+            if(err)
+                res.send(err);
+            res.json(links);
+        })
+})
+
+
 //on routes that end in /:short_url
 // -------------------------------------
 router.route('/:short_url')
 
     //get the url with that id(accessed at GET http://localhost:8080/:short_url)
     .get(function(req, res) {
-        Url.findById(req.params.short_url, function(err, url) {
+        Url.findById( {short_url: req.params.short_url }, function(err, url) {
             if(err)
                 res.send(err);
-
             res.json(url);
         });
     });
-    
-//onroutes that end in :/original_url
-//-----------------------------------
 
 
 //REGISTER OUR ROUTES -------------
