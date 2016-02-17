@@ -10,8 +10,9 @@ autoIncrement.initialize(connection);
 
 var urlSchema = new Schema({
     original_url: String,
+    short_url: String
 });
 
-urlSchema.plugin(autoIncrement.plugin, { model: 'Url', field: "short_url"});
+urlSchema.plugin(autoIncrement.plugin, { model: 'Url', field: "count"});
 
 module.exports = mongoose.model('Url', urlSchema);

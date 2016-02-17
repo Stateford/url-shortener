@@ -1,0 +1,65 @@
+html, body, .wrapper {
+  margin: 0;
+  height: 100%;
+  width: 100%; }
+
+.heading {
+  text-align: center; }
+  .heading h1 {
+    margin: 0; }
+
+.form-input {
+  margin-top: 10px;
+  width: 300px;
+  text-align: center;
+  display: inline-block;
+  padding-top: 20px; }
+  .form-input .output {
+    height: 50px;
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40px; }
+    .form-input .output h4 {
+      color: dodgerblue;
+      margin: 0; }
+    .form-input .output a {
+      margin: 0;
+      margin-top: 10px;
+      color: black; }
+      .form-input .output a:visited {
+        color: black; }
+      .form-input .output a:hover {
+        color: #696363; }
+  .form-input form {
+    margin-top: 20px; }
+    .form-input form input {
+      width: 200px;
+      float: right; }
+    .form-input form .form-btn {
+      float: right;
+      margin-top: 10px; }
+
+.latest {
+  float: right;
+  display: inline-block;
+  margin-right: 100px;
+  margin-top: 50px; }
+  .latest h4 {
+    margin: 0;
+    text-align: center;
+    color: dodgerblue; }
+  .latest .latest-info .left-col {
+    display: inline-block; }
+  .latest .latest-info .right-col {
+    display: inline-block; }
+    .latest .latest-info .right-col a {
+      margin-left: 10px; }
+  .latest .latest-info a {
+    color: black; }
+    .latest .latest-info a:visited {
+      color: black; }
+    .latest .latest-info a:hover {
+      color: #696363; }
+
+/*# sourceMappingURL=style.css.map */

@@ -5,7 +5,7 @@ $(document).ready(function() {
 //        $('.output').removeClass('hidden');
         
         // grab form value
-        var original = $('#form-url').val();
+        var original = $('.original').val();
         
         // check for valid entry
         if(original == '') {

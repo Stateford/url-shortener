@@ -2,3 +2,5 @@ node_modules/
 public/lib/
 data/
 gulpfile.js
+/public/css/.sass-cache/
+*.scss

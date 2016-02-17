@@ -1,36 +1,66 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='en' ng-app="urlshort">
     <head>
         <meta charset="utf-8">
         <title>url-shortener</title>
         <script src="lib/angular/angular.min.js"></script>
         <script src="lib/jquery/dist/jquery.min.js"></script>
-        <link href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
         <script src="js/javascript.js"></script>
     </head>
-    <body ng-app="urlshort">
+    <body ng-controller="urlCtrl">
         <!--WRAPPER-->
         <div class="wrapper">
-            <h1>URL SHORTENER</h1>
             
-            <div class="output hidden" ng-controller="urlCtrl">
-                <code id="url-short">{{ link.short_url }}</code>
+            <div class="heading">
+                <h1>URL SHORTENER</h1>
             </div>
+
             
             <!--FORM FOR SUBMITTING LINKS-->
-            <form>
-                <input class="original" id="form-url" name="original_url" type="text" required><br/>
-                <button id="submit" type="button" ng-click="clicked()">Shorten</button>
-                <button type="reset">Clear</button>
-            </form>
+            <div class="form-input">
+                <div class="output">
+                    <h4>Your Shortened Link</h4>
+                    <a ng-href="{{ link.short_url }}" id="url-short">{{ link.short_url }}</a>
+                </div>
+                <form>
+                    <input class="original" id="form-url" name="original_url" type="text" required><br/>
+                    <div class="form-btn">
+                        <button id="submit" type="button" ng-click="clicked()">Shorten</button>
+                        <button type="reset">Clear</button>
+                    </div>
+                </form>
+            </div>
+            <!--LATEST-->
+            <div class="latest" ng-controller="latestCtrl">
+                <h4>Latest Submitted Links</h4>
+                <div class="latest-info" ng-repeat="links in latest">
+                    <div class="left-col">
+                        <a ng-href="{{ links.short_url }}">{{ links.short_url }}</p>
+                    </div>
+                    <div class="right-col">
+                        <a ng-href="{{ links.original_url}}">{{ links.original_url }}</p>
+                    </div>
+                </div>
+                <h4><a href="http://localhost:8080/all">Click here to view all submitted links</a></h4>
+            </div>
+            
+            <!--INSTRUCTIONS FOR API-->
+            <div class="instructions">
+                <h3>How to Use</h3>
+                <code>http://localhost:8080/new/http://www.google.com</code><br/>
+                <code>http://localhost:8080/1</code><br/>
+                <code>http://localhost:8080/http://www.google.com</code><br/>
+            </div>
             
         </div>  <!--END WRAP-->
         
         <!--MODULES-->
         <script src="js/app.js"></script>
         <!--SERVICES-->
-        <script src="js/services/urlshort.js"></script>
+        <script src="js/services/latest.js"></script>
         <!--CONTROLLERS-->
         <script src="js/controller/urlCtrl.js"></script>
+        <script src="js/controller/latestCtrl.js"></script>
     </body>
 </html>

@@ -1,6 +1,6 @@
 // server.js
 
-// BASE SETUP
+// MODULES
 // =====================================
 
 // call the packages we need
@@ -20,8 +20,17 @@ var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017');
 
+var Schema = mongoose.Schema;
+
+var Count = mongoose.model('identitycounters', new Schema({ model: String, field: String, count: Number, _v: Number }));
+         
+var count = new Count();
+
+
 // import scripts
 var Url = require('./app/models/url');
+var urlCheck = require('./app/script/urlcheck');
+
 
 // ROUTES FOR OUR API
 // ===============================
@@ -34,7 +43,7 @@ router.use(function(req, res, next) {
     next();
 });
 
-//test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+// server INDEX.html to client
 router.get('/', function(req, res) {
     //event log
     res.sendFile(path.join(__dirname + '/public/index.html'));
@@ -51,39 +60,46 @@ router.route('/new')
     //create a url (accessed at POST http://localhost:8080/url)
     .post(function(req, res) {
         var input = req.body.original_url;
-        
-        Url.find({ original_url: input}, function(err, link) {
-            if(link.length) {
-                res.send(link)
-            }else {
-                var url = new Url();  // create a new instance of the url model
-                url.original_url = input; //set the url name (comes from the request)
-            
-            //save the url and check for errors
-                url.save(function(err) {
-                    if(err)
-                    res.send(err);
-            
-            res.send('url created!');
-        });
-            }
-        })
-    
-        
+        //find if url already exists
+        if(urlCheck(input)) {
+            Url.find({ original_url: input}, function(err, link) {
+                if(link.length) {
+                    res.json(link)
+                }else {
+                    var url = new Url();  // create a new instance of the url model
+                    url.original_url = input; //set the url name (comes from the request)
+
+                    Count.find(function(err, num) {
+                        if(err)
+                            res.send(err);
+                        var currentCount = num[0].count;
+                        currentCount++;
+                        url.short_url = "http://localhost:8080/" + currentCount;
+                    });
+
+
+
+                //save the url and check for errors
+                    url.save(function(err) {
+                        if(err)
+                        res.send(err);
+
+                    res.send('url created!');
+                    });
+                }
+            })
+        }
+        //if url doesnt exist
+        else {
+            res.send('that is not valid url');
+        }
     })
-    .get(function(req, res) {
-        Url.find({ original_url: req.query}, function(err, url) {
-            if(err)
-                res.send('error: ' + err);
-            res.send(url);
-        })
-    });
 
 // on routes that end in /new/:original_url
 // ----------------------------------------
-router.route('/new/:original')
+router.route('/new/*?')
     .get(function(req, res) {
-         Url.find({ original_url: req.params.original}, function(err, url) {
+         Url.find({ original_url: req.params[0]}, function(err, url) {
             if(err)
                 res.send('error: ' +err);
             res.json(url);
@@ -117,16 +133,32 @@ router.route('/latest')
 
 //on routes that end in /:short_url
 // -------------------------------------
-router.route('/:short_url')
+router.route('/:short_url(*)')
 
     //get the url with that id(accessed at GET http://localhost:8080/:short_url)
     .get(function(req, res) {
-        Url.find( {short_url: req.params.short_url }, function(err, url) {
-            if(err)
-                res.send(err);
-            res.json(url);
-        });
-    });
+        var input = req.params.short_url;
+        if(urlCheck(input)) {
+            Url.find({ orginal_url: input }, function(err, link) {
+                if(link.length) {
+                    res.json(link)
+                }else {
+                    var url = new Url();  // create a new instance of the url model
+                    url.original_url = input; //set the url name (comes from the request)
+
+                    Count.find(function(err, num) {
+                        if(err)
+                            res.send(err);
+                        var currentCount = num[0].count;
+                        currentCount++;
+                        url.short_url = "http://localhost:8080/" + currentCount;
+                    });
+                }
+            })
+        }
+});
+        
+
 
 
 //REGISTER OUR ROUTES -------------

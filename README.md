@@ -13,5 +13,5 @@
 
 
 ## TODO
-* url + count in database
-* set up checks to see if POST is currently in the database
+* set up ten latest shortens
+* send GET /NEW/ to crete new link

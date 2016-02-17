@@ -14,8 +14,7 @@
     "express": "^4.13.4",
     "mongodb": "^2.1.7",
     "mongoose": "^4.4.3",
-    "mongoose-auto-increment": "^5.0.1",
-    "wildcard": "^1.1.2"
+    "mongoose-auto-increment": "^5.0.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1"
