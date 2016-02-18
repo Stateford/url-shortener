@@ -8,9 +8,13 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var path = require('path');
+var morgan = require('morgan');
+
 
 // confiure app to use bodyParser()
 // this will let us get the data from a POST
+app.use(morgan('dev')); // log every request to the console
+app.use(bodyParser()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -74,8 +78,10 @@ router.route('/new')
                         if(err)
                             res.send(err);
                         var currentCount = num[0].count;
+                        currentCount = Number(currentCount);
                         currentCount++;
-                        url.short_url = host.host + currentCount;
+                        currentCount = currentCount.toString();
+                        url.short_url = host.url + currentCount;
                     });
 
 
@@ -108,9 +114,15 @@ router.route('/new/*?')
 });
 
 
-// on routes that end in /all
+router.get('/all', function(req, res) {
+    //event log
+    res.sendFile(path.join(__dirname + '/public/all.html'));
+});
+
+
+// on routes that end in /api/all
 // ---------------------------
-router.route('/all')
+router.route('/api/all')
     .get(function(req, res) {
         Url.find(function(err, urls) {
             if(err)
@@ -121,7 +133,7 @@ router.route('/all')
 
 // on routes that end in /latest
 // -----------------------------
-router.route('/latest')
+router.route('/api/latest')
     .get(function(req, res) {
         // GET the last 10 created
         Url.find().sort({ _id: - 1 }).limit(10).exec(function(err, links) {
@@ -134,32 +146,23 @@ router.route('/latest')
 
 //on routes that end in /:short_url
 // -------------------------------------
-router.route('/:short_url(*)')
+router.route('/:short_url')
 
     //get the url with that id(accessed at GET http://localhost:8080/:short_url)
     .get(function(req, res) {
         var input = req.params.short_url;
-        if(urlCheck(input)) {
-            Url.find({ orginal_url: input }, function(err, link) {
-                if(link.length) {
-                    res.json(link)
-                }else {
-                    var url = new Url();  // create a new instance of the url model
-                    url.original_url = input; //set the url name (comes from the request)
-
-                    Count.find(function(err, num) {
-                        if(err)
-                            res.send(err);
-                        var currentCount = num[0].count;
-                        currentCount++;
-                        url.short_url = host.host + currentCount;
-                    });
+        Url.find({ count: input }, function(err, link) {
+            if(link.length) {
+                if(err) 
+                    res.send(err);
+                else {
+                    res.redirect(link[0].original_url);
                 }
+            } else {
+                res.send('not a shortened url');
+            }
             })
-        }
 });
-        
-
 
 
 //REGISTER OUR ROUTES -------------
@@ -169,4 +172,4 @@ app.use('/', router);
 // START THE SERVER
 // ============================
 app.listen(host.port);
-console.log('Magic happens on port ' + port);
+console.log('Magic happens on port ' + host.port);
