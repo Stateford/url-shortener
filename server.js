@@ -14,11 +14,12 @@ var path = require('path');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080; 
+var host = require('./config/host');
  
 // connect to database
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017');
+var configDB = require('./config/database');
+mongoose.connect(configDB.url);
 
 var Schema = mongoose.Schema;
 
@@ -74,7 +75,7 @@ router.route('/new')
                             res.send(err);
                         var currentCount = num[0].count;
                         currentCount++;
-                        url.short_url = "http://localhost:8080/" + currentCount;
+                        url.short_url = host.host + currentCount;
                     });
 
 
@@ -151,7 +152,7 @@ router.route('/:short_url(*)')
                             res.send(err);
                         var currentCount = num[0].count;
                         currentCount++;
-                        url.short_url = "http://localhost:8080/" + currentCount;
+                        url.short_url = host.host + currentCount;
                     });
                 }
             })
@@ -167,5 +168,5 @@ app.use('/', router);
 
 // START THE SERVER
 // ============================
-app.listen(port);
+app.listen(host.port);
 console.log('Magic happens on port ' + port);

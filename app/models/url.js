@@ -4,7 +4,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
-var connection = mongoose.createConnection('mongodb://localhost:27017');
+// connect to database
+var configDB = require('../../config/database');
+var connection = mongoose.createConnection(configDB.url);
 
 autoIncrement.initialize(connection);
 
