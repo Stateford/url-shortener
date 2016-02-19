@@ -5,7 +5,7 @@
         <title>ALL</title>
         <script src="lib/angular/angular.min.js"></script>
         <script src="lib/jquery/dist/jquery.min.js"></script>
-        <link href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
         <script src="js/javascript.js"></script>
     </head>
     <body ng-app="urlshort">
@@ -15,27 +15,28 @@
             <nav class="nav">
                 <div class="container">
                     <div class="nav-brand">
-                        <h4><a href="#">go back</a></h4>
+                        <h4><a href="/">go back</a></h4>
                     </div>
                     <div class="api-list">
                         <ul>
-                            <li><a href="#">all</a></li>
-                            <li><a href="#">latest</a></li>
+                            <li><a href="/api/all">all</a></li>
+                            <li><a href="/api/latest">latest</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>  <!--END NAV-->
             
+   
             <!--MAINBODY-->
             <div class="mainbody" ng-controller="allCtrl">
                 <div class="container" ng-repeat="links in all">
                     <!--short url-->
                     <div class="leftcol">
-                        <p>{{ links.short_url }}</p>
+                        <a ng-href="{{ links.short_url }}">{{ links.short_url }}</a>
                     </div>
                     <!--original url-->
                     <div class="rightcol">
-                        <p>{{ links.original_url }}</p>
+                        <a ng-href="{{ links.short_url }}">{{ links.original_url }}</a>
                     </div>
                 </div>
             </div>  <!--END MAINBODY-->

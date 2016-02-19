@@ -13,5 +13,4 @@
 
 
 ## TODO
-* set up ten latest shortens
-* send GET /NEW/ to crete new link
+* make GET request for /new check if URL already exists in database

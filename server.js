@@ -14,7 +14,6 @@ var morgan = require('morgan');
 // confiure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(morgan('dev')); // log every request to the console
-app.use(bodyParser()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -57,6 +56,8 @@ router.get('/', function(req, res) {
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public')); 
 
+
+
 //more routes for our API will happen here
 
 // on routes that end in /new
@@ -65,9 +66,11 @@ router.route('/new')
     //create a url (accessed at POST http://localhost:8080/url)
     .post(function(req, res) {
         var input = req.body.original_url;
-        //find if url already exists
+        // check to see if it's a valid URL
         if(urlCheck(input)) {
+            // search db for url
             Url.find({ original_url: input}, function(err, link) {
+                // check if URL exists
                 if(link.length) {
                     res.json(link)
                 }else {
@@ -82,7 +85,7 @@ router.route('/new')
                         currentCount++;
                         currentCount = currentCount.toString();
                         url.short_url = host.url + currentCount;
-                    });
+                    })
 
 
 
@@ -92,7 +95,7 @@ router.route('/new')
                         res.send(err);
 
                     res.send('url created!');
-                    });
+                    })
                 }
             })
         }
@@ -105,15 +108,46 @@ router.route('/new')
 // on routes that end in /new/:original_url
 // ----------------------------------------
 router.route('/new/*?')
-    .get(function(req, res) {
-         Url.find({ original_url: req.params[0]}, function(err, url) {
-            if(err)
-                res.send('error: ' +err);
-            res.json(url);
-    });
-});
+        // the GET request
+    .get(function(req,res) {
+        var input = req.params[0];
+        // check if it's a valid URL
+        if(urlCheck(input)) {
+            Url.find({ original_url: req.params[0]}, function(err, link) {
+                if(link.length) {
+                    res.json(link);
+                } else {
+                    var url = new Url();
+                    
+                    url.original_url = input;
+                    
+                    Count.find(function(err, num) {
+                        if(err)
+                            res.send(err);
+                        var currentCount = num[0].count;
+                        currentCount = Number(currentCount);
+                        currentCount++;
+                        currentCount = currentCount.toString();
+                        url.short_url = host.url + currentCount;
+                    })
+                    
+                    // save the url and check for errors
+                    url.save(function(err) {
+                        if(err)
+                            res.send(err);
+                        
+                        res.send('url created!');
+                    })
+                    
+                }
+            })
+        }
+    else {
+        res.send('that is not a valid url');
+    }
 
-
+})
+    
 router.get('/all', function(req, res) {
     //event log
     res.sendFile(path.join(__dirname + '/public/all.html'));
@@ -141,7 +175,7 @@ router.route('/api/latest')
                 res.send(err);
             res.json(links);
         })
-})
+});
 
 
 //on routes that end in /:short_url
@@ -161,7 +195,7 @@ router.route('/:short_url')
             } else {
                 res.send('not a shortened url');
             }
-            })
+        })
 });
 
 

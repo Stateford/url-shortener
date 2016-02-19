@@ -17,20 +17,14 @@
             </div>
 
             
-            <!--FORM FOR SUBMITTING LINKS-->
-            <div class="form-input">
-                <div class="output">
-                    <h4>Your Shortened Link</h4>
-                    <a ng-href="{{ link.short_url }}" id="url-short">{{ link.short_url }}</a>
-                </div>
-                <form>
-                    <input class="original" id="form-url" name="original_url" type="text" required><br/>
-                    <div class="form-btn">
-                        <button id="submit" type="button" ng-click="clicked()">Shorten</button>
-                        <button type="reset">Clear</button>
-                    </div>
-                </form>
+            <!--INSTRUCTIONS FOR API-->
+            <div class="instructions">
+                <h3>How to Use</h3>
+                <p>To use api without using the form input the url you wish to change after a <code>'/new/'</code> tag like so: <code>http://localhost:8080/new/http://www.google.com</code></p><br/>
+                <p>If the the url exists you will be redirected to json file that will show you the short link</p><br/>
+                <p>Short links will look like this: <code>http://localhost:8080/1</code></p><br />
             </div>
+            
             <!--LATEST-->
             <div class="latest" ng-controller="latestCtrl">
                 <h4>Latest Submitted Links</h4>
@@ -43,14 +37,6 @@
                     </div>
                 </div>
                 <h4><a href="/all">Click here to view all submitted links</a></h4>
-            </div>
-            
-            <!--INSTRUCTIONS FOR API-->
-            <div class="instructions">
-                <h3>How to Use</h3>
-                <p>To use api without using the form input the url you wish to change after a <code>'/new/'</code> tag like so: <code>http://localhost:8080/new/http://www.google.com</code></p><br/>
-                <p>the the url exists you will be redirected to json file that will show you the short link</p><br/>
-                <p>Short links will look like this: <code>http://localhost:8080/1</code></p><br />
             </div>
             
         </div>  <!--END WRAP-->

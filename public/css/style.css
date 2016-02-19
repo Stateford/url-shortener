@@ -3,48 +3,91 @@ html, body, .wrapper {
   height: 100%;
   width: 100%; }
 
+.nav {
+  position: static;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14); }
+  .nav .nav-brand {
+    display: inline-block;
+    text-align: center;
+    text-transform: capitalize; }
+    .nav .nav-brand h4 {
+      margin: 15px 0 0 10px; }
+    .nav .nav-brand a {
+      margin: 0;
+      text-decoration: none;
+      display: inline-block;
+      color: black; }
+      .nav .nav-brand a:visited {
+        color: black;
+        text-decoration: none; }
+      .nav .nav-brand a:hover {
+        color: #8b8181; }
+  .nav .api-list {
+    display: inline-block;
+    margin: 0;
+    float: right;
+    margin-right: 30px; }
+    .nav .api-list ul {
+      list-style: none; }
+      .nav .api-list ul li {
+        display: inline-block; }
+        .nav .api-list ul li a {
+          text-decoration: none;
+          color: black;
+          text-transform: capitalize;
+          margin-right: 20px; }
+          .nav .api-list ul li a:visited {
+            color: black;
+            text-decoration: none; }
+          .nav .api-list ul li a:hover {
+            color: #8b8181; }
+
+.mainbody {
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  margin-top: 50px; }
+  .mainbody .leftcol {
+    width: 20%;
+    display: inline-block;
+    text-align: center; }
+    .mainbody .leftcol a {
+      text-decoration: none;
+      color: black; }
+      .mainbody .leftcol a:visited {
+        color: black; }
+      .mainbody .leftcol a:hover {
+        color: #8b8181;
+        text-decoration: none; }
+  .mainbody .rightcol {
+    width: 20%;
+    display: inline-block;
+    text-align: center; }
+    .mainbody .rightcol a {
+      text-decoration: none;
+      color: black; }
+      .mainbody .rightcol a:visited {
+        color: black;
+        text-decoration: none; }
+      .mainbody .rightcol a:hover {
+        color: #8b8181; }
+
 .heading {
   text-align: center; }
   .heading h1 {
     margin: 0; }
 
-.form-input {
-  margin-top: 10px;
-  width: 300px;
-  text-align: center;
-  display: inline-block;
-  padding-top: 20px; }
-  .form-input .output {
-    height: 50px;
-    width: 300px;
-    text-align: center;
-    margin: 0 auto;
-    margin-top: 40px; }
-    .form-input .output h4 {
-      color: dodgerblue;
-      margin: 0; }
-    .form-input .output a {
-      margin: 0;
-      margin-top: 10px;
-      color: black; }
-      .form-input .output a:visited {
-        color: black; }
-      .form-input .output a:hover {
-        color: #696363; }
-  .form-input form {
-    margin-top: 20px; }
-    .form-input form input {
-      width: 200px;
-      float: right; }
-    .form-input form .form-btn {
-      float: right;
-      margin-top: 10px; }
+
 
 .latest {
-  float: right;
-  display: inline-block;
-  margin-right: 100px;
-  margin-top: 50px; }
+  display: block;
+  margin: 0 auto;
+  margin-top: 50px;
+  text-align: center;
+  width: 400px; }
   .latest h4 {
     margin: 0;
     text-align: center;
@@ -61,5 +104,18 @@ html, body, .wrapper {
       color: black; }
     .latest .latest-info a:hover {
       color: #696363; }
+
+.instructions {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 50%; }
+  .instructions h3 {
+    color: dodgerblue;
+    margin: 0; }
+  .instructions p {
+    margin: 0; }
+  .instructions code {
+    color: #fd5a5a;
+    background-color: #f4f4f1; }
 
 /*# sourceMappingURL=style.css.map */

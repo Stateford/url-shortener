@@ -12,7 +12,7 @@ $(document).ready(function() {
             alert('incorrect value');
         } else {
             //if entry is valid
-            $.post("http://localhost:8080/new/", {
+            $.post("http://localhost:8080/new", {
                 original_url: original
             }, function(data) {
                 console.log(data);
