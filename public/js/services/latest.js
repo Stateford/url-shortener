@@ -1,5 +1,5 @@
 app.factory('latest', function($http) {
-    return $http.get('http://localhost:8080/api/latest')
+    return $http.get('/api/latest')
         .success(function(data) {
             return data;
         })
